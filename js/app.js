@@ -1,11 +1,11 @@
-var enemyStart = [60, 143, 226]; // The three positions of the rows for the enemies
+var enemyStart = [60, 143, 226]; // The three positions of the rows for the enemies to start
 
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
     this.startX = -101; // Start position
-    this.x = this.startX;
+    this.x = this.startX; // X position
     this.y = enemyStart[ Math.floor(Math.random() * 3)]; // Random Y position
     this.speed = (Math.random() * 5) + 1; // Random speed (from 1 to 6)
 
@@ -20,23 +20,26 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += (this.speed * 90 * dt);
+    this.x += (this.speed * 90 * dt); // Updates the X position according to the speed
     this.restartPosition();
     this.checkForCollision();
 };
 
+// Restart the position of the enemy when it gets to the end of the screen
 Enemy.prototype.restartPosition = function() {
     if (this.x >= 510) {
         this.x = this.startX;
-        this.y = enemyStart[ Math.floor(Math.random() * 3)];
+        this.y = enemyStart[ Math.floor(Math.random() * 3)]; // Restart the Y position ramdomly
     }
 };
 
+// Checks if there is a cllision between the enemy and the player
+// If there is a collision, the game restarts
 Enemy.prototype.checkForCollision = function() {
     if (this.y == player.y) {
         if ((this.x + 83 > player.x) && (this.x < player.x + 83)) {
             player.reset();
-            console.log("You loose!")
+            console.log("You loose!");
         }
     }
 };
@@ -52,12 +55,12 @@ Enemy.prototype.render = function() {
 var Player = function() {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.startX = 202;
-    this.startY = 392;
-    this.stepX = 101;
-    this.stepY = 83;
-    this.x = this.startX;
-    this.y = this.startY;
+    this.startX = 202; // Start X position
+    this.startY = 392; // Start Y position
+    this.stepX = 101; // The size of the movement on the X
+    this.stepY = 83; // The size of the movement on the Y
+    this.x = this.startX; // X position
+    this.y = this.startY; // Y position
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
@@ -77,11 +80,13 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Resets the position of the player back to the start position
 Player.prototype.reset = function() {
     this.x = this.startX;
     this.y = this.startY;
 };
 
+// Handles the input and move the player according to the key pressed
 Player.prototype.handleInput = function(keyCode) {
     // Move up the player
     if (keyCode == "up") {
